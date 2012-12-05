@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" />
 
@@ -13,6 +14,7 @@
 </head>
 <body>
 <?php
+$placa = escapeshellcmd ( stripslashes ($_POST['placa']));
 
 $placa = 'P000297';
 
@@ -20,9 +22,16 @@ exec('get_placa.py ' . $placa, $resp);
 
 $data = json_decode($resp[0]);
 
+echo "<h1>Datos de la Placa Ingresada</H1>";
 
+echo "<h4>Numero de Placa: " . $data->placa . "</h4>";
+echo "<h4>Aseguradora: " . $data->aseguradora . "</h4>";
+echo "<h4>Número de Certificado: " . $data->no_certificado . "</h4>";
 echo "<h4>Fecha Inicio: " . $data->f_inicio . "</h4>";
-
-#echo $data->placa;
+echo "<h4>Fecha Fin: " . $data->f_fin . "</h4>";
+echo "<h4>Fecha Vigencia: " . $data->vigencia . "</h4>";
 ?>
+<br/>
+Running on <a href="http://python.org">Python</a>
 </body>
+</html>
