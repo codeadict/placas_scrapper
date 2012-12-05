@@ -14,9 +14,9 @@
 </head>
 <body>
 <?php
-$placa = escapeshellcmd ( stripslashes ($_POST['placa']));
+$placa = escapeshellcmd($_POST['placa']);
 
-$placa = 'P000297';
+echo $_POST['placa'];
 
 exec('get_placa.py ' . $placa, $resp);
 
