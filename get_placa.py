@@ -43,13 +43,13 @@ class PlacasScrapper:
         """
         Constructor
         """
-        browser = spynner.Browser(user_agent=self.random_ua())
+        browser = spynner.Browser(user_agent='Mozilla/5.0 (X11; Linux i686; rv:15.0) Gecko/20100101 Firefox/15.0.1')
         browser.create_webview()
         
         #poner placa en mayuscula
         self.placa = num_placa.upper()
 
-        self.headers = { 'User-Agent' : 'Mozilla/5.0 (X11; Linux i686; rv:15.0) Gecko/20100101 Firefox/15.0.1', 'Host': 'soaprd.sbs.gob.ec:7778', 'Connection': 'keep-alive', 'Cache-Control': 'max-age=0', 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3', 'Accept-Language':'es-ES,es;q=0.8' }
+        self.headers = {'Host': 'soaprd.sbs.gob.ec:7778', 'Connection': 'keep-alive', 'Cache-Control': 'max-age=0', 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3', 'Accept-Language':'es-ES,es;q=0.8' }
         
         index_url = 'http://soaprd.sbs.gob.ec:7778/AppWGP/sbs_soat_index.jsp'
         
@@ -97,22 +97,10 @@ class PlacasScrapper:
             respuesta['vigencia'] = col[4].text_content()
         
         #devolver salidaen JSON
-        #print json.dumps(respuesta)
-        return json.dumps(respuesta)
+        sys.stdout.flush()
+        print str(json.dumps(respuesta))
 
-    def random_ua(self):
-        """
-        Cambia User Agent desde una lista dinamica obtenida desde:
-        http://www.zytrax.com/tech/web/browser_ids.htm
-        """
-        site = urllib2.urlopen('http://www.zytrax.com/tech/web/browser_ids.htm').read()
-        pattern = re.compile(r'<p class=\"g-c-[ns]\">(.*?)<\/p>', re.S)
-        browser_list = pattern.findall(site)
-        ua = random.choice(browser_list)
-        if ua:
-            return ua
-        else:
-            return 'Mozilla/5 (Solaris 10) Gecko'
+        #print respuesta
 
 if len(sys.argv) != 2:
      print >>sys.stderr, 'uso: get_placa.py NUMERO-PLACA'

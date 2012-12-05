@@ -1,23 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+
+     <!-- Set the viewport width to device width for mobile -->
+     <meta name="viewport" content="width=device-width" />
+    <title>Obtener Datos de Seguro</title>
+
+    <!-- Fix HTML5 Tags on MS monsters-->
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
 <?php
-//Setear encoding a UTF8
-ini_set("default_charset", "utf-8");
 
-$placa = $_POST['placa'];
+$placa = 'P000297';
 
-echo $placa;
+exec('get_placa.py ' . $placa, $resp);
 
-exec('python get_placa.py ' . escapeshellcmd($placa), $salida);
+$data = json_decode($resp[0]);
 
-echo $salida;
 
-$obj = json_decode($salida);
+echo "<h4>Fecha Inicio: " . $data->f_inicio . "</h4>";
 
-print "<h1>DATOS OBTENIDOS</h1>"
-print "Placa: " . $obj->{'placa'} . "\n";
-print "Aseguradora: " . $obj->{'aseguradora'} . "\n";
-print "Num. Certificado: " . $obj->{'no_certificado'} . "\n";
-print "Fecha Inicio: " . $obj->{'f_inicio'} . "\n";
-print "Fecha Fin: " . $obj->{'f_fin'} . "\n";
-print "Vigente: " . $obj->{'vigencia'} . "\n";
-
+#echo $data->placa;
 ?>
+</body>
